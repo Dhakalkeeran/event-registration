@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Event Registration Form.</title>
+    <style>
+        body {
+            font-family: "Raleway", sans-serif;
+            background-color: #ff6655;
+        }
+        h1 {
+            text-align: center;
+            margin: 20px auto;
+        }
+        h2 {
+            text-align: center;
+            margin: 20px auto;
+        }
+        form {
+            width: 70%;
+            margin: auto;
+        }
+        fieldset {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 20px auto;
+            box-shadow: 0 0 5px #333;
+            background-color: #eee;
+        }
+        label {
+            display: block;
+            
+            margin-bottom: 5px;
+        }
+        input[type="text"],input[type="email"],select{
+            width: calc(100% - 20px);
+            height: 20px;
+            padding: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+        button {
+            width: min(100%, max(70px, 7%)); 
+            text-align: center;
+            margin: auto !important;
+            height: 40px;
+            border-radius: 10px;
+            background-color: #eee;
+            display: block;
+            font-size: 16px;
+        }
+        .required:after {
+            content:" *";
+            color: red;
+        }
+        select {
+            height: 32px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="event-registration">
+        <h1>Event Registration</h1>
+        {% if messages %}
+            {% for message in messages %}
+                <h2>
+                    {{ message }}
+                </h2>
+            {% endfor %}
+        {% endif %}
+        <form id="event-registration-form" method="POST" action="">
+            {% csrf_token %}
+            <!-- Form contents will go here -->
+            <fieldset>
+                <h3>Personal Information</h3>
+                <label class="required" for="first-name">First Name</label>
+                <input type="text" id="first-name" name="first-name" required/>
+                <label class="required" for="last-name">Last Name</label>
+                <input type="text" id="last-name" name="last-name" required/>
+                <label class="required" for="email">Email</label>
+                <input type="email" id="email" name="email" required/>
+                <label class="required" for="street">Address</label>
+                <input type="text" id="street" name="street" required/>
+                <label for="unit">Unit</label>
+                <input type="text" id="unit" name="unit" />
+                <label class="required" for="city">City</label>
+                <input type="text" id="city" name="city" required/>
+                <label class="required" for="state">State</label>
+                <select id="states" name="state" required>
+                    <option value="">-- Choose your state --</option>
+                    {% for state in states %}
+                        <option value="{{ state }}">{{ state }}</option>
+                    {% endfor %}
+                </select>
+                <label class="required" for="postal-code">Postal Code</label>
+                <input type="text" id="postal-code" name="postal-code" required/>
+            </fieldset>
+            <fieldset>
+                <h3>Additional Information</h3>
+                <label class="required" for="size">Shirt Size</label>
+                <div>
+                    <input type="radio" name="size" value="xsmall" required>XS
+                    <input type="radio" name="size" value="small">S
+                    <input type="radio" name="size" value="medium">M
+                    <input type="radio" name="size" value="large">L
+                    <input type="radio" name="size" value="xlarge">XL
+                    <br/>
+                    <br/>
+                    <input type="checkbox" name="pickup"> I will be picking up my shirt on the event day.
+        
+                </div>
+            </fieldset>
+        <button type="submit">Submit</button>
+    </div>
+</body>
+
+</html>
