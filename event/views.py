@@ -1,20 +1,10 @@
 from django.shortcuts import render
 from django.contrib import messages
-from .models import RegistrationInfo
+from .models import RegistrationInfo, states
 
 # Create your views here.
 
 def register(request):
-    states = [
-        "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
-        "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
-        "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
-        "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire",
-        "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
-        "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
-        "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia",
-        "Wisconsin", "Wyoming"
-    ]
 
     if request.method == "POST":
         first_name = request.POST.get("first-name")
@@ -24,7 +14,7 @@ def register(request):
         address = request.POST.get("street") + " "
         address += request.POST.get("unit").strip() + ", "
         address += request.POST.get("city") + ", "
-        address += request.POST.get("state") + ", "
+        address += states[request.POST.get("state")] + ", "
         address += request.POST.get("postal-code")
 
         shirt_size = request.POST.get("size")
@@ -42,7 +32,6 @@ def register(request):
 
         table_name = "RegistrationTable"
         reg_info.push_item_to_dynamodb(table_name)
-
         messages.success(request, f"Registration Successful for {first_name} {last_name}")
 
     return render(request, "event/register.html", context={"states": states})

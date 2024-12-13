@@ -5,7 +5,6 @@ from botocore.exceptions import ClientError
 
 logger = logging.getLogger(__name__)
 
-
 class Registration:
 
     def __init__(self, dyn_resource):
@@ -115,15 +114,15 @@ def main(table_name="Registration"):
     table_exists = registration.exists(table_name)
 
     if not table_exists:
-        print(f"\nCreating table {table_name}...")
+        logger.info(f"\nCreating table {table_name}...")
         registration.create_table(table_name)
-        print(f"\nCreated table {registration.table.name}.")
-    print(f"Adding item to the {table_name} table")
+        logger.info(f"\nCreated table {registration.table.name}.")
+    logger.info(f"Adding item to the {table_name} table")
 
     registration.add_registration("John", "Doe", "jdoe@example.com", "12/09/2024", "123 Example St, Gotham, NJ, 07748", "M", False)
-            
+        
 if __name__ == "__main__":
     try:
         main()
     except Exception as e:
-        print("Error occurred!", e)
+        logger.error("Error occurred!", e)
